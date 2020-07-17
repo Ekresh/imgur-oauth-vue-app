@@ -1,0 +1,45 @@
+:root {
+    --main-bg: #ffffff;
+    --main-color: #212121;
+    --p-color: #757575;
+    --btn-color: #303F9F;
+    --border-color: #C5CAE9;
+}
+
+body {
+    color: var(--main-color);
+    background-color: var(--main-bg);
+}
+
+p { 
+    color: var(--p-color);
+}
+
+button {
+    background-color: var(--btn-color);
+}
+a, a:focus, button, button:focus {
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+button,
+button:focus {
+  border-radius: 2px;
+  padding: 12px 18px;
+}
+
+/* Ripple effect */
+.ripple {
+    background-position: center;
+    transition: background 0.8s;
+}
+.ripple:hover {
+background: #fff radial-gradient(circle, transparent 1%, #fff 1%)
+    center/15000%;
+}
+.ripple:active {
+    background: #d7ccc8;
+    background-size: 100%;
+    transition: background 0s;
+}

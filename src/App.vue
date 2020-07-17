@@ -1,0 +1,32 @@
+<template>
+  <div id="app">
+    <Header />
+    <main class="container py-5">
+      <router-view />
+    </main>
+  </div>
+</template>
+
+<script>
+import Header from "./components/Header";
+import Upload from "./views/Upload";
+import Gallary from "./views/Gallary";
+import Login from "./views/Login";
+
+export default {
+  components: {
+    Header,
+    Upload,
+    Gallary,
+    Login
+  }
+};
+</script>
+
+<style>
+@import "./assets/css/custom-bootstrap.css";
+@import "./assets/css/general.css";
+main {
+  margin-top: 62px;
+}
+</style>
