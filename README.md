@@ -1,8 +1,8 @@
 # imgur-oauth-vue-app
 
 ## Features
-1 - Login and auth using imgur(OAuth).
-2 - Upload single and multiple image.
+#### 1 - Login and auth using imgur(OAuth).
+#### 2 - Upload single and multiple image.
 
 ## Project setup
 ```

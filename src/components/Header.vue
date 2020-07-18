@@ -8,7 +8,7 @@
         <nav>
           <ul class="unstyled mb-0">
             <li class="d-inline-block">
-              <router-link to="/" class="text-decoration-none">Login</router-link>
+              <button @click="login" class="pr-0">Login</button>
             </li>
             <li class="d-inline-block">
               <router-link to="/gallary" class="text-decoration-none">Gallery</router-link>
@@ -27,8 +27,11 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
-  name: "Header"
+  name: "Header",
+  methods: mapActions(["login"])
 };
 </script>
 

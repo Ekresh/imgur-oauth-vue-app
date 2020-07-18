@@ -9,16 +9,10 @@
 
 <script>
 import Header from "./components/Header";
-import Upload from "./views/Upload";
-import Gallary from "./views/Gallary";
-import Login from "./views/Login";
 
 export default {
   components: {
-    Header,
-    Upload,
-    Gallary,
-    Login
+    Header
   }
 };
 </script>
