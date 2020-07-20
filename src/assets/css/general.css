@@ -10,7 +10,9 @@ body {
     color: var(--main-color);
     background-color: var(--main-bg);
 }
-
+* {
+    transition: all 0.3s ease-in-out;
+}
 p { 
     color: var(--p-color);
 }

@@ -1,8 +1,10 @@
 ### Steps
 
-Do auth using imgur
+// ------- Do auth using imgur
 
-Routing guards
+// ----- Routing guards
+
+Fix preloading in login
 
 Preloading
 
@@ -12,9 +14,7 @@ Upload loading
 
 Error snack bar
 
-Authorization: Client-ID YOUR_CLIENT_ID
 
-For accessing a user's account, please visit the OAuth2 section of the docs.
 
 
 Client ID:
