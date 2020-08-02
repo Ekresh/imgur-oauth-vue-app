@@ -2,7 +2,6 @@
     --main-bg: #ffffff;
     --main-color: #212121;
     --p-color: #757575;
-    --btn-color: #303F9F;
     --border-color: #C5CAE9;
 }
 
@@ -10,15 +9,8 @@ body {
     color: var(--main-color);
     background-color: var(--main-bg);
 }
-* {
-    transition: all 0.3s ease-in-out;
-}
 p { 
     color: var(--p-color);
-}
-
-button {
-    background-color: var(--btn-color);
 }
 a, a:focus, button, button:focus {
   border: none;
@@ -29,6 +21,9 @@ button,
 button:focus {
   border-radius: 2px;
   padding: 12px 18px;
+  background-color: var(--main-color);
+  color: var(--main-bg);
+  border-radius: 0.3em;
 }
 
 /* Ripple effect */

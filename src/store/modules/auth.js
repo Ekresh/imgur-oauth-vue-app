@@ -1,11 +1,8 @@
 import router from '../../router';
 
-const ROOT_URL = 'https://api.imgur.com';
-const client_id = '8559189c6f2970a';
-
 const state = {
     token: localStorage.getItem('access_token'),
-    loginLoding: false,
+    loginLoading: false,
 };
 
 const getters = {
@@ -13,29 +10,24 @@ const getters = {
         return !!state.token;
     },
     loginLoading(state) {
-        let link = window.location.href;
-        if (link.match(/(#access_token=)/)) {
-            state.loginLoading = true;
-            return state.loginLoading;
-        }
         return state.loginLoading;
     }
 };
 
 const actions = {
-    login() {
-        window.location = `${ROOT_URL}/oauth2/authorize?client_id=${client_id}&response_type=token`;
+    login({ commit }) {
+        window.location = `${process.env.VUE_APP_ROOT_URL}/oauth2/authorize?client_id=${process.env.VUE_APP_CLEINT_ID}&response_type=token`;
+        commit('setLoginLoading', true);
 
     },
     fnalizeLogin({ commit }) {
         let link = window.location.href;
         if (link.match(/(#access_token=)/)) {
-            let editedLink = link.split('#access_token=')[1];
-            const finalLink = link.split('#access_token=')[0];
+            const editedLink = link.split('#access_token=')[1];
             const access_token = editedLink.split('&expires_in')[0];
-            window.location = finalLink;
             localStorage.setItem('access_token', access_token);
             commit('setToken', localStorage.getItem('access_token'));
+            router.push('gallary');
         }
 
     },
@@ -49,6 +41,9 @@ const actions = {
 const mutations = {
     setToken(state, token) {
         state.token = token;
+    },
+    setLoginLoading(state, loginLoading) {
+        state.loginLoading = loginLoading;
     }
 };
 

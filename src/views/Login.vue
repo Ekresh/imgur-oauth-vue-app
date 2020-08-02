@@ -1,13 +1,14 @@
 <template>
   <div>
-    <h3 v-if="!loginLoading">Please login</h3>
+    <h4 v-if="!loginLoading || token">Please to Login with imgur</h4>
+    <button v-if="!loginLoading || token" @click="login" class="shadow-sm mt-3">Login</button>
     <div v-if="loginLoading" class="mx-auto">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         style="margin:auto;background:none;display:block;"
-        width="50px"
-        height="50px"
+        width="30px"
+        height="30px"
         viewBox="0 0 100 100"
         preserveAspectRatio="xMidYMid"
       >
@@ -36,19 +37,23 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import router from "../router";
 
 export default {
   name: "Login",
   computed: {
     ...mapGetters(["loginLoading", "token"])
   },
-  methods: mapActions(["fnalizeLogin"]),
+  methods: {
+    ...mapActions(["login", "fnalizeLogin"])
+  },
   created() {
     this.fnalizeLogin();
-    if (this.token) {
-      router.push("/gallary");
-    }
   }
 };
 </script>
+
+<style scoped>
+button {
+  letter-spacing: 3px;
+}
+</style>

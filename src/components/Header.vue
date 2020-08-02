@@ -28,9 +28,6 @@
                 </svg>
               </button>
             </li>
-            <li v-if="!token" class="d-inline-block">
-              <button @click="loginAndToggle" class="pr-0">Login with imgur</button>
-            </li>
             <li @click="toggleNav" v-if="token" class="d-inline-block">
               <router-link to="/gallary" class="text-decoration-none">Gallery</router-link>
             </li>
@@ -42,7 +39,7 @@
             </li>
           </ul>
         </nav>
-        <button @click="toggleNav" class="d-none menu">
+        <button v-if="token" @click="toggleNav" class="d-none menu">
           <svg
             width="1em"
             height="1em"
@@ -74,16 +71,12 @@ export default {
   },
   computed: mapGetters(["token"]),
   methods: {
+    ...mapActions(["logout"]),
     toggleNav() {
       this.isActive = !this.isActive;
     },
-    ...mapActions(["login", "logout"]),
     multiple() {
       this.logout();
-      this.toggleNav();
-    },
-    loginAndToggle() {
-      this.login();
       this.toggleNav();
     }
   }
@@ -95,18 +88,20 @@ header button,
 header a {
   padding: 0;
   outline: none;
-  background: #fff;
   margin-left: 20px;
 }
-header a {
-  color: rgba(33, 33, 33, 0.5);
+header a,
+header button {
+  color: var(--main-color);
+  background-color: var(--main-bg);
 }
 .router-link-active {
-  color: var(--main-color);
+  font-weight: bold;
 }
 h3 a,
 h3 a.router-link-active {
   color: var(--main-color);
+  font-weight: inherit;
 }
 @media (max-width: 400px) {
   .menu {
@@ -142,6 +137,7 @@ h3 a.router-link-active {
     z-index: 20;
     background: var(--main-bg);
     transform: translateX(100%);
+    transition: all 0.3s ease-in-out;
   }
   nav.active {
     transform: translateX(0);

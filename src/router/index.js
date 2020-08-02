@@ -23,7 +23,7 @@ const routes = [
   },
   {
     path: '/gallary',
-    name: 'Gallaery',
+    name: 'Gallary',
     component: () => import('../views/Gallary.vue')
   }
 ]
@@ -37,6 +37,9 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.name !== 'Login' && !store.getters.token) {
     next({ name: 'Login' })
+  }
+  else if (to.name === 'Login' && store.getters.token) {
+    next({ name: 'Gallary' })
   }
   else {
     next()
