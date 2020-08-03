@@ -1,5 +1,5 @@
 <template>
-  <div class="border-bottom fixed-top">
+  <div class="header border-bottom fixed-top">
     <div class="container">
       <header class="w-100 d-flex justify-content-between my-3">
         <h3 class="mb-0">
@@ -8,7 +8,7 @@
         <nav :class="{ active: isActive }">
           <ul class="unstyled mb-0">
             <li class="d-none close">
-              <button @click="toggleNav">
+              <button class="shadow-none" @click="toggleNav">
                 <svg
                   width="1em"
                   height="1em"
@@ -39,7 +39,7 @@
             </li>
           </ul>
         </nav>
-        <button v-if="token" @click="toggleNav" class="d-none menu">
+        <button v-if="token" @click="toggleNav" class="d-none menu shadow-none">
           <svg
             width="1em"
             height="1em"
@@ -84,6 +84,9 @@ export default {
 </script>
 
 <style scoped>
+.header {
+  background-color: var(--main-bg);
+}
 header button,
 header a {
   padding: 0;

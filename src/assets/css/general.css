@@ -24,6 +24,7 @@ button:focus {
   background-color: var(--main-color);
   color: var(--main-bg);
   border-radius: 0.3em;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
 
 /* Ripple effect */

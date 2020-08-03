@@ -6,7 +6,9 @@ const state = {};
 
 const getters = {};
 
-const actions = {};
+const actions = {
+    postImages() { }
+};
 
 const mutations = {};
 

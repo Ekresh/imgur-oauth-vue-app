@@ -1,7 +1,7 @@
 <template>
   <div>
     <h4 v-if="!loginLoading || token">Please to Login with imgur</h4>
-    <button v-if="!loginLoading || token" @click="login" class="shadow-sm mt-3">Login</button>
+    <button v-if="!loginLoading || token" @click="login" class="mt-3">Login</button>
     <div v-if="loginLoading" class="mx-auto">
       <svg
         xmlns="http://www.w3.org/2000/svg"
