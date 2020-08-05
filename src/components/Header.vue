@@ -74,6 +74,9 @@ export default {
     ...mapActions(["logout"]),
     toggleNav() {
       this.isActive = !this.isActive;
+      this.isActive
+        ? (document.body.style.overflowY = "hidden")
+        : (document.body.style.overflowY = "auto");
     },
     multiple() {
       this.logout();

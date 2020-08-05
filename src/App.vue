@@ -4,15 +4,21 @@
     <main class="container py-5">
       <router-view />
     </main>
+    <SnackBar v-if="responseOrErrorSnack" />
   </div>
 </template>
 
 <script>
 import Header from "./components/Header";
-
+import SnackBar from "./components/Snack-bar";
+import { mapGetters } from "vuex";
 export default {
   components: {
-    Header
+    Header,
+    SnackBar
+  },
+  computed: {
+    ...mapGetters(["responseOrErrorSnack"])
   }
 };
 </script>
