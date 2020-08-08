@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h4 v-if="!loginLoading || token">Please to Login with imgur</h4>
-    <button v-if="!loginLoading || token" @click="login" class="mt-3">Login</button>
-    <Preloader v-if="loginLoading" />
+    <h4 v-if="!loading || token">Please to Login with imgur</h4>
+    <button v-if="!loading || token" @click="login" class="mt-3">Login</button>
+    <Preloader v-if="loading" />
   </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
     Preloader
   },
   computed: {
-    ...mapGetters(["loginLoading", "token"])
+    ...mapGetters(["loading", "token"])
   },
   methods: {
     ...mapActions(["login", "fnalizeLogin"])

@@ -2,22 +2,22 @@ import router from '../../router';
 
 const state = {
     token: localStorage.getItem('access_token'),
-    loginLoading: false,
+    loading: false,
 };
 
 const getters = {
     token(state) {
         return !!state.token;
     },
-    loginLoading(state) {
-        return state.loginLoading;
+    loading(state) {
+        return state.loading;
     }
 };
 
 const actions = {
     login({ commit }) {
         window.location = `${process.env.VUE_APP_ROOT_URL}/oauth2/authorize?client_id=${process.env.VUE_APP_CLEINT_ID}&response_type=token`;
-        commit('setLoginLoading', true);
+        commit('setloading', true);
 
     },
     fnalizeLogin({ commit }) {
@@ -27,6 +27,7 @@ const actions = {
             const access_token = editedLink.split('&expires_in')[0];
             localStorage.setItem('access_token', access_token);
             commit('setToken', localStorage.getItem('access_token'));
+            commit('setloading', false);
             router.push('gallary');
         }
 
@@ -42,8 +43,8 @@ const mutations = {
     setToken(state, token) {
         state.token = token;
     },
-    setLoginLoading(state, loginLoading) {
-        state.loginLoading = loginLoading;
+    setloading(state, loading) {
+        state.loading = loading;
     }
 };
 
@@ -51,5 +52,5 @@ export default {
     state,
     getters,
     actions,
-    mutations
+    mutations,
 }

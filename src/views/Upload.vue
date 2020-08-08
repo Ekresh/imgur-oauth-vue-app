@@ -1,26 +1,31 @@
 <template>
   <div class="text-center">
-    <Preloader v-if="uploadLoading" />
+    <Preloader v-if="imagesLoading" />
     <p class="error" v-if="notImageError">{{notImageError}}</p>
     <div v-if="imageSources.length === 0" class="position-relative text-center">
       <input type="file" @change="onAddImages" multiple accept="image/*" />
       <button class="choose">Upload Or Drag images</button>
     </div>
-    <div v-if="imageSources.length > 0 && !uploadLoading" class="upload">
+    <div v-if="imageSources.length > 0 && !imagesLoading" class="upload">
       <p>Upload this images?</p>
       <button @click="cancel">Cancel</button>
       <button @click="onUpload">Upload</button>
     </div>
     <div v-if="imageSources.length > 0" class="image-container">
-      <div v-for="(src, index) in imageSources" :key="index" class="position-relative">
-        <div class="progress">
-          <span :style="{width: uploadPercentCompleted + '%'}"></span>
-          <!-- <span></span> -->
+      <div
+        v-for="(src, index) in imageSources"
+        :key="index"
+        class="column-container position-relative"
+      >
+        <div :class="{finished: index < uploadPercentCompleted.i}" class="progress">
+          <span
+            :class="{transparent: index > uploadPercentCompleted.i}"
+            :style="{width: uploadPercentCompleted.loadingNumbers + '%'}"
+          ></span>
         </div>
         <img :src="src" />
       </div>
     </div>
-    {{uploadPercentCompleted}}
   </div>
 </template>
 
@@ -41,7 +46,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["uploadLoading", "uploadPercentCompleted"])
+    ...mapGetters(["imagesLoading", "uploadPercentCompleted"])
   },
   methods: {
     ...mapActions(["postImages"]),
@@ -64,20 +69,6 @@ export default {
     },
     onUpload() {
       this.postImages(this.imageFiles);
-      // this.fetchSpan();
-    },
-    fetchSpan() {
-      const spanSelectors = document.querySelectorAll("span");
-      for (let i = 0; i < spanSelectors.length; i++) {
-        do {
-          for (let span of spanSelectors) {
-            spanSelectors[i].setAttribute(
-              ":style",
-              "{width: uploadPercentCompleted + '%'}"
-            );
-          }
-        } while (spanSelectors[i].style.width == 100);
-      }
     },
     cancel() {
       this.imageSources = [];
@@ -116,6 +107,13 @@ button:first-of-type:not(.choose) {
   column-count: 4;
   column-gap: 0;
 }
+.column-container {
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
 @media (max-width: 400px) {
   .image-container {
     column-count: 2;
@@ -141,11 +139,17 @@ p.error {
   left: 5px;
   width: calc(100% - 10px);
 }
+.finished.progress {
+  background: var(--main-color);
+}
 .progress span {
   height: 5px;
   width: 0;
   display: block;
   border-radius: 0.3em;
   background: var(--main-color);
+}
+span.transparent {
+  opacity: 0;
 }
 </style>
