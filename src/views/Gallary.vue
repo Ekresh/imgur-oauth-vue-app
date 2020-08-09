@@ -1,11 +1,13 @@
 <template>
   <div>
-    <Preloader v-if="imagesLoading && images.length === 0" />
+    <Preloader
+      v-if="imagesLoading || images.length === 0 || images.length !== imagesLoaded.length"
+    />
     <p v-if="!imagesLoading && images.length === 0">
       No images yet, To upload
       <router-link to="/upload" class="text-decoration-none">Click Here</router-link>
     </p>
-    <div class="image-container">
+    <div :class="{invisible: images.length !== imagesLoaded.length}" class="image-container">
       <div
         ref="movable"
         @touchmove="detectMoving($event, index)"
@@ -15,7 +17,12 @@
         :class="{ 'full-screen-toggle': isFullScreenImage.add && isFullScreenImage.i === index }"
       >
         <div class="position-relative d-flex justify-content-center align-items-center">
-          <img @click="openFullScreenImage(index)" :src="image.link" :alt="image.id" />
+          <img
+            @click="openFullScreenImage(index)"
+            :src="image.link"
+            :alt="image.id"
+            @load="onImgLoad(index)"
+          />
           <button
             v-if="isFullScreenImage.add"
             @click="closeFullScreenImage"
@@ -36,6 +43,54 @@
               <path
                 fill-rule="evenodd"
                 d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"
+              />
+            </svg>
+          </button>
+          <button
+            @click="prevImage"
+            :disabled="index === 0"
+            v-if="isFullScreenImage.add && !isTouchScreen"
+            class="left-button"
+          >
+            <svg
+              width="30px"
+              height="30px"
+              viewBox="0 0 16 16"
+              class="bi bi-arrow-left"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.854 4.646a.5.5 0 0 1 0 .708L3.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M2.5 8a.5.5 0 0 1 .5-.5h10.5a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+              />
+            </svg>
+          </button>
+          <button
+            @click="nextImage"
+            :disabled="index === images.length - 1"
+            v-if="isFullScreenImage.add && !isTouchScreen"
+            class="right-button"
+          >
+            <svg
+              width="30px"
+              height="30px"
+              viewBox="0 0 16 16"
+              class="bi bi-arrow-right"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10.146 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L12.793 8l-2.647-2.646a.5.5 0 0 1 0-.708z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M2 8a.5.5 0 0 1 .5-.5H13a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8z"
               />
             </svg>
           </button>
@@ -61,7 +116,9 @@ export default {
         i: 0
       },
       yTouchArray: [],
-      xTouchArray: []
+      xTouchArray: [],
+      isTouchScreen: false,
+      imagesLoaded: []
     };
   },
   computed: {
@@ -70,9 +127,9 @@ export default {
   created() {
     this.fetchImages();
     if ("ontouchstart" in document.documentElement) {
-      console.log("T");
+      this.isTouchScreen = true;
     } else {
-      console.log("N");
+      this.isTouchScreen = false;
     }
   },
   methods: {
@@ -85,6 +142,16 @@ export default {
     },
     closeFullScreenImage() {
       this.isFullScreenImage.add = false;
+    },
+    nextImage() {
+      if (this.isFullScreenImage.i < this.images.length - 1) {
+        this.isFullScreenImage.i++;
+      }
+    },
+    prevImage() {
+      if (this.isFullScreenImage.i > 0) {
+        this.isFullScreenImage.i--;
+      }
     },
     detectMoving(e, i) {
       if (this.$refs.movable) {
@@ -126,6 +193,9 @@ export default {
           }
         }
       }
+    },
+    onImgLoad(i) {
+      this.imagesLoaded.push(i);
     }
   }
 };
@@ -185,5 +255,16 @@ button {
   width: 50px;
   background: rgba(33, 33, 33, 0.3);
   padding: 0;
+}
+.left-button,
+.right-button {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.left-button {
+  left: 20px;
+}
+.right-button {
+  right: 20px;
 }
 </style>

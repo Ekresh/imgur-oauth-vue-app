@@ -6,6 +6,8 @@
 
 // ----- Fix preloading in login
 
+cancel image before upload
+
 Preloading
 
 Page title
