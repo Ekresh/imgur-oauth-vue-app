@@ -1,13 +1,19 @@
 <template>
   <div>
-    <Preloader
-      v-if="imagesLoading || images.length === 0 || images.length !== imagesLoaded.length"
+    <Preloader v-if="imagesLoading && images.length === 0" />
+    <Modal
+      v-if="isShowModal"
+      firstBtn="Cancel"
+      @firstEvent="cancelDelete"
+      @secondEvent="onDeleteImage(deleteHash)"
+      secondBtn="Delete"
+      title="Sure, Delete this?"
     />
     <p v-if="!imagesLoading && images.length === 0">
       No images yet, To upload
       <router-link to="/upload" class="text-decoration-none">Click Here</router-link>
     </p>
-    <div :class="{invisible: images.length !== imagesLoaded.length}" class="image-container">
+    <div class="image-container">
       <div
         ref="movable"
         @touchmove="detectMoving($event, index)"
@@ -17,12 +23,29 @@
         :class="{ 'full-screen-toggle': isFullScreenImage.add && isFullScreenImage.i === index }"
       >
         <div class="position-relative d-flex justify-content-center align-items-center">
-          <img
-            @click="openFullScreenImage(index)"
-            :src="image.link"
-            :alt="image.id"
-            @load="onImgLoad(index)"
-          />
+          <img @click="openFullScreenImage(index)" :src="image.link" :alt="image.id" />
+          <button
+            v-if="!isFullScreenImage.add"
+            class="delete-image"
+            @click="showModal(image.deletehash)"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 16 16"
+              class="bi bi-trash"
+              fill="#fff"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+              />
+            </svg>
+          </button>
           <button
             v-if="isFullScreenImage.add"
             @click="closeFullScreenImage"
@@ -103,11 +126,14 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import Preloader from "../components/Preloader";
+import Modal from "../components/Modal";
 
 export default {
   name: "Gallary",
+  title: "imgur Store - Gallary",
   components: {
-    Preloader
+    Preloader,
+    Modal
   },
   data() {
     return {
@@ -118,7 +144,8 @@ export default {
       yTouchArray: [],
       xTouchArray: [],
       isTouchScreen: false,
-      imagesLoaded: []
+      deleteHash: "",
+      isShowModal: false
     };
   },
   computed: {
@@ -133,7 +160,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchImages"]),
+    ...mapActions(["fetchImages", "deleteImage"]),
     openFullScreenImage(i) {
       this.isFullScreenImage = {
         add: true,
@@ -194,8 +221,16 @@ export default {
         }
       }
     },
-    onImgLoad(i) {
-      this.imagesLoaded.push(i);
+    showModal(i) {
+      this.isShowModal = true;
+      this.deleteHash = i;
+    },
+    cancelDelete() {
+      this.isShowModal = false;
+    },
+    async onDeleteImage(imageId) {
+      await this.deleteImage(imageId);
+      this.isShowModal = false;
     }
   }
 };
@@ -210,7 +245,7 @@ a:focus {
   column-count: 4;
   column-gap: 0;
 }
-@media (max-width: 400px) {
+@media (max-width: 767px) {
   .image-container {
     column-count: 2;
     column-gap: 0;
@@ -266,5 +301,11 @@ button {
 }
 .right-button {
   right: 20px;
+}
+.delete-image {
+  height: 30px;
+  width: 30px;
+  top: 10px;
+  right: 10px;
 }
 </style>

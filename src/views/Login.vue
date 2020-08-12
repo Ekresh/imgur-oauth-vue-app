@@ -11,6 +11,7 @@ import { mapActions, mapGetters } from "vuex";
 import Preloader from "../components/Preloader";
 
 export default {
+  title: "imgur Store - Login",
   name: "Login",
   components: {
     Preloader

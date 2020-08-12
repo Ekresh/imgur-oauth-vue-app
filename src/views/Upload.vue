@@ -24,6 +24,29 @@
           ></span>
         </div>
         <img :src="src" />
+        <button
+          v-if="isBeforeUpload"
+          @click="cancelThisImage(index)"
+          class="cancel-btn shadow-none d-flex justify-content-center align-items-center"
+        >
+          <svg
+            width="30px"
+            height="30px"
+            viewBox="0 0 16 16"
+            class="bi bi-x"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"
+            />
+            <path
+              fill-rule="evenodd"
+              d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"
+            />
+          </svg>
+        </button>
       </div>
     </div>
   </div>
@@ -33,6 +56,7 @@
 import { mapActions, mapGetters } from "vuex";
 import Preloader from "../components/Preloader";
 export default {
+  title: "imgur Store - Upload",
   name: "Upload",
   components: {
     Preloader
@@ -42,7 +66,8 @@ export default {
       imageFiles: [],
       imageSources: [],
       notImageError: "",
-      src: ""
+      src: "",
+      isBeforeUpload: true
     };
   },
   computed: {
@@ -68,10 +93,17 @@ export default {
       }
     },
     onUpload() {
+      this.isBeforeUpload = false;
       this.postImages(this.imageFiles);
     },
     cancel() {
       this.imageSources = [];
+    },
+    cancelThisImage(i) {
+      this.imageFiles = Array.from(this.imageFiles).filter(file => {
+        return Array.from(this.imageFiles).indexOf(file) !== i;
+      });
+      this.imageSources.splice(i, 1);
     }
   }
 };
@@ -151,5 +183,16 @@ p.error {
 }
 span.transparent {
   opacity: 0;
+}
+.cancel-btn {
+  position: absolute;
+  top: 13px;
+  right: 10px;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  background: rgba(33, 33, 33, 0.3);
+  padding: 0;
+  margin-right: 0 !important;
 }
 </style>

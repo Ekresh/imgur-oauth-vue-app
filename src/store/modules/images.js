@@ -1,4 +1,4 @@
-import axios from './axios-interceptor';
+import axios from 'axios';
 import router from '../../router';
 
 const state = {
@@ -8,7 +8,7 @@ const state = {
     uploadPercentCompleted: {
         loadingNumbers: 0,
         i: 0
-    }
+    },
 };
 
 const getters = {
@@ -31,7 +31,11 @@ const actions = {
         commit('setImagesLoading', true);
         let i = 0;
         let loadingNumbers = 0;
+        const token = localStorage.getItem('access_token');
         const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             onUploadProgress(progressEvent) {
                 loadingNumbers = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                 do {
@@ -63,9 +67,15 @@ const actions = {
         commit('setUploadPercentCompleted', { loadingNumbers: 0, i: 0 })
         commit('setImagesLoading', false);
     },
-    async fetchImages({ commit }) {
+    async fetchImages({ commit, state }) {
+        const token = localStorage.getItem('access_token');
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
         commit('setImagesLoading', true);
-        await axios.get(`${process.env.VUE_APP_ROOT_URL}/3/account/me/images`)
+        await axios.get(`${process.env.VUE_APP_ROOT_URL}/3/account/me/images`, config)
             .then(res => {
                 const { data } = res;
                 if (data.status === 200) {
@@ -76,6 +86,24 @@ const actions = {
                 commit('setResponseOrErrorSnack', 'Error, Something went wrong!')
             });
         commit('setImagesLoading', false);
+    },
+    async deleteImage({ commit, state }, imageDeleteHash) {
+        const token = localStorage.getItem('access_token');
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+        await axios.delete(`${process.env.VUE_APP_ROOT_URL}/3/image/${imageDeleteHash}`, config)
+            .then(res => {
+                const imagesAfterDeleteOne = state.images.filter(img => img.deletehash !== imageDeleteHash);
+                if (res.status === 200) {
+                    commit('setImages', imagesAfterDeleteOne)
+                }
+            })
+            .catch(err => {
+                commit('setResponseOrErrorSnack', 'Error, Something went wrong!')
+            })
     }
 };
 

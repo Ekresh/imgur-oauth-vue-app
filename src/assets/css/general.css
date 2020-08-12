@@ -4,7 +4,6 @@
     --p-color: #757575;
     --border-color: #C5CAE9;
 }
-
 body {
     color: var(--main-color);
     background-color: var(--main-bg);

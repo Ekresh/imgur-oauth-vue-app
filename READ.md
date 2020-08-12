@@ -1,20 +1,10 @@
 ### Steps
 
-// ------- Do auth using imgur
+general Preloading
 
-// ----- Routing guards
+favicon
 
-// ----- Fix preloading in login
-
-cancel image before upload
-
-Preloading
-
-Page title
-
-Upload loading
-
-Error snack bar
+config axios
 
 css prefix
 
@@ -22,13 +12,11 @@ css prefix
 
 
 
-
+// ====================================== //
 Client ID:
 8559189c6f2970a
 Client secret:
 c45e0313bd42296408a9471e0b5d8823ca8d4a80
-
-
 
 https://api.imgur.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&response_type=REQUESTED_RESPONSE_TYPE&state=APPLICATION_STATE
 

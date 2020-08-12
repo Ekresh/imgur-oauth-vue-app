@@ -7,7 +7,7 @@ const state = {
 
 const getters = {
     token(state) {
-        return !!state.token;
+        return state.token;
     },
     loading(state) {
         return state.loading;
@@ -26,9 +26,12 @@ const actions = {
             const editedLink = link.split('#access_token=')[1];
             const access_token = editedLink.split('&expires_in')[0];
             localStorage.setItem('access_token', access_token);
-            commit('setToken', localStorage.getItem('access_token'));
+            const token = localStorage.getItem('access_token');
             commit('setloading', false);
-            router.push('gallary');
+            if (token) {
+                commit('setToken', token);
+                router.push('gallary');
+            }
         }
 
     },
