@@ -3,6 +3,7 @@
     <Preloader v-if="imagesLoading && images.length === 0" />
     <Modal
       v-if="isShowModal"
+      :disable="isDisabled"
       firstBtn="Cancel"
       @firstEvent="cancelDelete"
       @secondEvent="onDeleteImage(deleteHash)"
@@ -145,7 +146,8 @@ export default {
       xTouchArray: [],
       isTouchScreen: false,
       deleteHash: "",
-      isShowModal: false
+      isShowModal: false,
+      isDisabled: false
     };
   },
   computed: {
@@ -229,8 +231,10 @@ export default {
       this.isShowModal = false;
     },
     async onDeleteImage(imageId) {
+      this.isDisabled = true;
       await this.deleteImage(imageId);
       this.isShowModal = false;
+      this.isDisabled = false;
     }
   }
 };

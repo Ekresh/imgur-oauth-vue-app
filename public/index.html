@@ -3,26 +3,44 @@
 
 <head>
   <meta charset="utf-8">
-  <meta
-    http-equiv="X-UA-Compatible"
-    content="IE=edge"
-  >
-  <meta
-    name="viewport"
-    content="width=device-width,initial-scale=1.0"
-  >
-  <link
-    rel="icon"
-    href="<%= BASE_URL %>favicon.ico"
-  >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.png">
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <style>
+    .preloader-container {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #fff;
+      z-index: 100000;
+    }
+
+    .preloader-container svg {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
 </head>
 
 <body>
   <noscript>
     <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
   </noscript>
-  <div id="app"></div>
+  <div id="app">
+    <div class="preloader-container">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin:auto;background:none;display:block;" width="30px" height="30px" viewBox="0 0 100 100"
+        preserveAspectRatio="xMidYMid">
+        <circle cx="50" cy="50" fill="none" stroke="#212121" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
+          <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1" />
+        </circle>
+      </svg>
+    </div>
+  </div>
   <!-- built files will be auto injected -->
 </body>
 

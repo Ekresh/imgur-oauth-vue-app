@@ -1,7 +1,7 @@
 <template>
   <div>
     <h4 v-if="!loading || token">Please to Login with imgur</h4>
-    <button v-if="!loading || token" @click="login" class="mt-3">Login</button>
+    <button v-if="!loading || token" @click="login" class="ripple mt-3">Login</button>
     <Preloader v-if="loading" />
   </div>
 </template>

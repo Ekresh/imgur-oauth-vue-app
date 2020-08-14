@@ -8,8 +8,8 @@
     </div>
     <div v-if="imageSources.length > 0 && !imagesLoading" class="upload">
       <p>Upload this images?</p>
-      <button @click="cancel">Cancel</button>
-      <button @click="onUpload">Upload</button>
+      <button class="ripple" @click="cancel">Cancel</button>
+      <button class="ripple" @click="onUpload">Upload</button>
     </div>
     <div v-if="imageSources.length > 0" class="image-container">
       <div

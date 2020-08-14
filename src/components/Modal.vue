@@ -4,8 +4,8 @@
       <div class="shadow-sm">
         <h5>{{ title }}</h5>
         <div class="d-flex justify-content-between">
-          <button @click="emitFirstEvent">{{ firstBtn }}</button>
-          <button @click="emitSecondEvent">{{ secondBtn }}</button>
+          <button :disabled="disable" class="ripple" @click="emitFirstEvent">{{ firstBtn }}</button>
+          <button :disabled="disable" class="ripple" @click="emitSecondEvent">{{ secondBtn }}</button>
         </div>
       </div>
     </div>
@@ -24,6 +24,9 @@ export default {
     },
     title: {
       type: String
+    },
+    disable: {
+      type: Boolean
     }
   },
   methods: {

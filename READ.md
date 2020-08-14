@@ -2,15 +2,13 @@
 
 general Preloading
 
-favicon
+image lazy loading
 
 config axios
 
 css prefix
 
 .env
-
-
 
 // ====================================== //
 Client ID:
