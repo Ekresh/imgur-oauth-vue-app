@@ -1,5 +1,6 @@
 import axios from 'axios';
 import router from '../../router';
+import { getToken } from './config'
 
 const state = {
     images: [],
@@ -31,22 +32,20 @@ const actions = {
         commit('setImagesLoading', true);
         let i = 0;
         let loadingNumbers = 0;
-        const token = localStorage.getItem('access_token');
-        const config = {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
+        const token = getToken();
+        const progress = {
             onUploadProgress(progressEvent) {
                 loadingNumbers = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                 do {
-                    if (loadingNumbers == 100) {
-                        i++;
-                        loadingNumbers = 0;
-                    }
-                    commit('setUploadPercentCompleted', { loadingNumbers, i })
-                } while (loadingNumbers.length == 3)
+                    commit('setUploadPercentCompleted', { loadingNumbers, i });
+                } while (loadingNumbers.length == 3);
+                if (loadingNumbers == 100) {
+                    i++;
+                    loadingNumbers = 0;
+                }
             }
         }
+        const config = Object.assign(progress, token)
         const uploadPromises = Array.from(postedImages).map(imageFile => {
             const uploadededImages = new FormData();
             uploadededImages.append("image", imageFile);
@@ -68,14 +67,8 @@ const actions = {
         commit('setImagesLoading', false);
     },
     async fetchImages({ commit, state }) {
-        const token = localStorage.getItem('access_token');
-        const config = {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }
         commit('setImagesLoading', true);
-        await axios.get(`${process.env.VUE_APP_ROOT_URL}/3/account/me/images`, config)
+        await axios.get(`${process.env.VUE_APP_ROOT_URL}/3/account/me/images`, getToken())
             .then(res => {
                 const { data } = res;
                 if (data.status === 200) {
@@ -88,13 +81,7 @@ const actions = {
         commit('setImagesLoading', false);
     },
     async deleteImage({ commit, state }, imageDeleteHash) {
-        const token = localStorage.getItem('access_token');
-        const config = {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }
-        await axios.delete(`${process.env.VUE_APP_ROOT_URL}/3/image/${imageDeleteHash}`, config)
+        await axios.delete(`${process.env.VUE_APP_ROOT_URL}/3/image/${imageDeleteHash}`, getToken())
             .then(res => {
                 const imagesAfterDeleteOne = state.images.filter(img => img.deletehash !== imageDeleteHash);
                 if (res.status === 200) {

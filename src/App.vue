@@ -12,6 +12,7 @@
 import Header from "./components/Header";
 import SnackBar from "./components/Snack-bar";
 import { mapGetters } from "vuex";
+
 export default {
   components: {
     Header,

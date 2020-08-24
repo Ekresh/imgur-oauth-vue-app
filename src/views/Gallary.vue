@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Preloader v-if="imagesLoading && images.length === 0" />
+    <Preloader v-if="(imagesLoading && images.length === 0) || !isImagesLoaded" />
     <Modal
       v-if="isShowModal"
       :disable="isDisabled"
@@ -14,7 +14,7 @@
       No images yet, To upload
       <router-link to="/upload" class="text-decoration-none">Click Here</router-link>
     </p>
-    <div class="image-container">
+    <div :class="{'invisible': !isImagesLoaded}" class="image-container">
       <div
         ref="movable"
         @touchmove="detectMoving($event, index)"
@@ -24,7 +24,12 @@
         :class="{ 'full-screen-toggle': isFullScreenImage.add && isFullScreenImage.i === index }"
       >
         <div class="position-relative d-flex justify-content-center align-items-center">
-          <img @click="openFullScreenImage(index)" :src="image.link" :alt="image.id" />
+          <img
+            @load="onImageLoad(index)"
+            @click="openFullScreenImage(index)"
+            :src="image.link"
+            :alt="image.id"
+          />
           <button
             v-if="!isFullScreenImage.add"
             class="delete-image"
@@ -147,7 +152,9 @@ export default {
       isTouchScreen: false,
       deleteHash: "",
       isShowModal: false,
-      isDisabled: false
+      isDisabled: false,
+      onImageLoadArray: [],
+      isImagesLoaded: false
     };
   },
   computed: {
@@ -235,6 +242,12 @@ export default {
       await this.deleteImage(imageId);
       this.isShowModal = false;
       this.isDisabled = false;
+    },
+    onImageLoad(i) {
+      this.onImageLoadArray.push(i);
+      if (this.onImageLoadArray.length === this.images.length) {
+        this.isImagesLoaded = true;
+      }
     }
   }
 };

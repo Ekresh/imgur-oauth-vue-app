@@ -2,7 +2,9 @@
 
 ## Features
 #### 1 - Login and auth using imgur(OAuth).
-#### 2 - Upload single and multiple image.
+#### 2 - Upload single and multiple images with single upload progress.
+#### 3 - Delete image.
+#### 4 - customize swipe in touch screen.
 
 ## Project setup
 ```
@@ -19,5 +21,3 @@ npm run serve
 npm run build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

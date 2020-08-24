@@ -35,7 +35,7 @@
               <router-link to="upload" class="text-decoration-none">Upload</router-link>
             </li>
             <li v-if="token" class="d-inline-block">
-              <button @click="multiple" class="pr-0">Logout</button>
+              <button @click="multiple" class="pr-0" type="button" value="Logout">Logout</button>
             </li>
           </ul>
         </nav>
@@ -74,9 +74,12 @@ export default {
     ...mapActions(["logout"]),
     toggleNav() {
       this.isActive = !this.isActive;
-      this.isActive
-        ? (document.body.style.overflowY = "hidden")
-        : (document.body.style.overflowY = "auto");
+      let width = window.innerWidth;
+      if (this.isActive && width <= 400) {
+        document.body.style.overflowY = "hidden";
+      } else {
+        document.body.style.overflowY = "auto";
+      }
     },
     multiple() {
       this.logout();
@@ -98,16 +101,17 @@ header a {
 }
 header a,
 header button {
-  color: var(--main-color);
+  color: var(--p-color);
   background-color: var(--main-bg);
+  line-height: 1;
+  box-shadow: none !important;
 }
 .router-link-active {
-  font-weight: bold;
+  color: var(--main-color);
 }
 h3 a,
 h3 a.router-link-active {
   color: var(--main-color);
-  font-weight: inherit;
 }
 @media (max-width: 400px) {
   .menu {
@@ -163,10 +167,10 @@ h3 a.router-link-active {
   }
 }
 header li {
-  padding-top: 15px;
+  padding-top: 7px;
 }
 header {
   white-space: nowrap;
-  line-height: 0;
+  line-height: 1;
 }
 </style>

@@ -1,12 +1,46 @@
 :root {
     --main-bg: #ffffff;
-    --main-color: #212121;
-    --p-color: #757575;
+    --main-color: #40404c;
+    --p-color: #8c8c94;
     --border-color: #C5CAE9;
 }
+@font-face {
+    font-family: 'regular';
+    src: url('../fonts/Prophet-Regular.eot');
+    src: url('../fonts/Prophet-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Prophet-Regular.woff2') format('woff2'),
+        url('../fonts/Prophet-Regular.woff') format('woff'),
+        url('../fonts/Prophet-Regular.ttf') format('truetype'),
+        url('../fonts/Prophet-Regular.svg#Prophet-Regular') format('svg');
+    font-weight: normal !important;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'medium';
+    src: url('../fonts/Prophet-Medium.eot');
+    src: url('../fonts/Prophet-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Prophet-Medium.woff2') format('woff2'),
+        url('../fonts/Prophet-Medium.woff') format('woff'),
+        url('../fonts/Prophet-Medium.ttf') format('truetype'),
+        url('../fonts/Prophet-Medium.svg#Prophet-Medium') format('svg');
+    font-weight: 500 !important;
+    font-style: normal;
+}
 body {
+    font-family: 'regular';
     color: var(--main-color);
     background-color: var(--main-bg);
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    text-size-adjust: none;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500 !important;
+    font-family: 'medium';
 }
 p { 
     color: var(--p-color);
