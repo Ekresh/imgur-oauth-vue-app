@@ -1,0 +1,13 @@
+# https://gist.github.com/julianpoemp/bcf277cb56d2420cc53ec630a04a3566
+# Version 1.4.0
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+
+	RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+	RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+
+	RewriteRule ^.*$ - [NC,L]
+	RewriteRule ^(.*) index.html [NC,L]
+</IfModule>
+
